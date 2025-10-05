@@ -1,23 +1,34 @@
 package com.apiRest.gestorPropuestas.entities;
 
 import com.apiRest.gestorPropuestas.enums.EEstadoPropuesta;
-
+import jakarta.persistence.*;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "ESTADO")
 public class Estado {
-    int id;
-    EEstadoPropuesta nombre;
-    LocalDate fecha;
 
-    Propuesta propuesta;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-    public Estado(){}
+    @Enumerated(EnumType.STRING)
+    private EEstadoPropuesta nombre;
+
+    private LocalDate fecha;
+
+    @ManyToOne
+    @JoinColumn(name = "PROPUESTA_TITULO")
+    private Propuesta propuesta;
+
+    public Estado() {}
 
     public Estado(EEstadoPropuesta nombre, LocalDate fecha) {
         this.nombre = nombre;
         this.fecha = fecha;
     }
 
+    // Getters y Setters
     public EEstadoPropuesta getNombre() {
         return nombre;
     }

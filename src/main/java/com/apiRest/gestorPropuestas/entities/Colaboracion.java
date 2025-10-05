@@ -1,20 +1,37 @@
 package com.apiRest.gestorPropuestas.entities;
 
 import com.apiRest.gestorPropuestas.enums.ETipoRetorno;
-
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "COLABORACION")
 public class Colaboracion {
 
-    int id;
-    Integer monto;
-    ETipoRetorno retorno;
-    LocalDateTime fecha;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-    Propuesta propuesta;
-    Colaborador colaborador;
+    private Integer monto;
 
-    public Colaboracion(int id, Integer monto, ETipoRetorno retorno, LocalDateTime fecha, Propuesta propuesta, Colaborador colaborador) {
+    @Enumerated(EnumType.STRING)
+    private ETipoRetorno retorno;
+
+    private LocalDateTime fecha;
+
+    @ManyToOne
+    @JoinColumn(name = "PROPUESTA_TITULO")
+    private Propuesta propuesta;
+
+    @ManyToOne
+    @JoinColumn(name = "COLABORADOR_NICKNAME")
+    private Colaborador colaborador;
+
+    public Colaboracion() {
+    }
+
+    public Colaboracion(int id, Integer monto, ETipoRetorno retorno,
+                        LocalDateTime fecha, Propuesta propuesta, Colaborador colaborador) {
         this.id = id;
         this.monto = monto;
         this.retorno = retorno;
@@ -22,8 +39,6 @@ public class Colaboracion {
         this.propuesta = propuesta;
         this.colaborador = colaborador;
     }
-
-    public Colaboracion() {}
 
     public int getId() {
         return id;
@@ -41,14 +56,6 @@ public class Colaboracion {
         this.monto = monto;
     }
 
-    public LocalDateTime getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(LocalDateTime fecha) {
-        this.fecha = fecha;
-    }
-
     public ETipoRetorno getRetorno() {
         return retorno;
     }
@@ -57,12 +64,12 @@ public class Colaboracion {
         this.retorno = retorno;
     }
 
-    public Colaborador getColaborador() {
-        return colaborador;
+    public LocalDateTime getFecha() {
+        return fecha;
     }
 
-    public void setColaborador(Colaborador colaborador) {
-        this.colaborador = colaborador;
+    public void setFecha(LocalDateTime fecha) {
+        this.fecha = fecha;
     }
 
     public Propuesta getPropuesta() {
@@ -71,5 +78,13 @@ public class Colaboracion {
 
     public void setPropuesta(Propuesta propuesta) {
         this.propuesta = propuesta;
+    }
+
+    public Colaborador getColaborador() {
+        return colaborador;
+    }
+
+    public void setColaborador(Colaborador colaborador) {
+        this.colaborador = colaborador;
     }
 }

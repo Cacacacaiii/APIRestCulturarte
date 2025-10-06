@@ -1,0 +1,34 @@
+services:
+    db:
+      image: mysql:8.0.43-debian
+      container_name: bd-culturarte
+      restart: always
+      environment:
+        MYSQL_DATABASE: culturarte
+        MYSQL_ALLOW_EMPTY_PASSWORD: true
+      healthcheck:
+        test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot"]
+        interval: 10s       # cada cuánto ejecutar el test
+        timeout: 5s         # cuánto esperar por respuesta
+        retries: 5          # cuántas veces fallar antes de marcar unhealthy
+        start_period: 60s   # 🔹 tiempo de gracia antes del primer chequeo (aumentado a 60s)
+      #Limito la memoria que puede usar a 128 megas
+      shm_size: 128mb
+
+      ports:
+        - 60000:3306
+
+      volumes:
+        - data_bd:/var/lib/mysql
+        - ./init:/docker-entrypoint-initdb.d
+
+    java:
+      image: gestorpropuestas
+      container_name: api-java
+      ports:
+      - 60001:8080
+      depends_on:
+        db:
+          condition: service_healthy
+volumes:
+  data_bd:

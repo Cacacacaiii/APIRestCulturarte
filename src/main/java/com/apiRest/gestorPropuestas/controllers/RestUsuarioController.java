@@ -12,8 +12,8 @@ import java.util.List;
 @RestController
 public class RestUsuarioController {
 
+    /*
     private static final List<Usuario> usuarios = new ArrayList<>();
-/*
     List<Propuesta> propuestas = new ArrayList<>(); //Esto tendria que pedir la lista al servidor central
     List<Colaboracion> colaboraciones = new ArrayList<>(); //Esto tendria que pedir las col al servidor central
 
